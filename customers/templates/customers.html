@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block 'head' %}
+    <link rel="stylesheet" href="{% static 'customers/css/customers.css' %}">
+{% endblock %}
+
+{% block 'dashboard' %}
+    <div class="container">
+        <div class="row">
+            <div onclick="display_form('1')" class="col-md card-dashboard">
+                <p class="text-card">Add Customers</p>
+            </div>
+            <div onclick="display_form('2')"class="col-md card-dashboard">
+                <p class="text-card">Update Customers</p>
+            </div>
+        </div> 
+
+        <div id="add-customers" class="add-customers">
+            <form action="{% url 'customers' %}" method="POST">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col-md">
+                        <p>First Name:</p>
+                        <input type="text" class="form-control" placeholder="First Name" name="firstname" value="{{ firstname }}">
+                    </div>
+                    <div class="col-md">
+                        <p>Last Name:</p>
+                        <input type="text" class="form-control" placeholder="Last Name" name="lastname" value="{{ lastname }}">
+                    </div>
+                </div>
+                
+                <br>
+                
+                <p>E-mail:</p>
+                <input type="email" class="form-control" placeholder="****@email.com" name="email" value="{{ email }}">
+                
+                <br>
+                
+                <p>CPF:</p>
+                <input type="text" class="form-control" placeholder="___.___.___-__" name="cpf" value="{{ cpf }}">
+                
+                <hr style="background-color:gray;">
+                
+                <div class="add-cars">
+                    <h3>Cars</h3>
+                    <span class="btn-add-cars" onclick="add_car()">+ Add Car</span>
+                    
+                    <div id="form-car"></div>
+                    {% for car, plate, year in cars %}
+                    <br>
+                        <div class="row">
+                            <div class="col-md">
+                                <input type='text' placeholder='Car' class='form-control' name='car' value="{{ car }}">
+                            </div>
+                            <div class="col-md">
+                                <input type='text' placeholder='Plate' class='form-control' name='plate' value="{{ plate }}">
+                            </div>
+                            <div class="col-md">
+                                <input type='number' placeholder='Year' class='form-control' name='year' value="{{ year }}">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+                <br>
+                
+                <input type="submit" value="Register" class="btn-main">
+            </form>
+        </div>
+
+        <div id="upp_customer">
+            <p></p>
+            <select id="customer-select" onchange="customer_data()" class="form-control">
+                {% for customer in customers %}
+                <option value="{{customer.id}}">{{customer.firstname}}</option>
+                {% endfor %}
+            </select>
+            <br>
+            <hr>
+
+            <div id="form-upp-customer">
+                <p>First Name:</p>
+                <input id="firstname" type="text" class='form-control'>
+                <p>Last Name:</p>
+                <input id="lastname" type="text" class='form-control'>
+                <p>E-mail:</p>
+                <input id="email" type="text" class='form-control'>
+                <p>CPF:</p>
+                <input id="cpf" type="text" class='form-control'>
+
+            </div>
+        </div>
+
+    </div>
+    
+    <script src="{% static 'customers/js/customers.js' %}"></script>
+{% endblock %}
